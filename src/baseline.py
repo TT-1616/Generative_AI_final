@@ -82,9 +82,16 @@ def parse_needs(request: str, selected_amenities: list[str] | None = None) -> tu
     return tuple(sorted(needs)), urgency
 
 
-def _candidate_stops(highway: str, direction: str, current_mile: float) -> list[dict]:
+def _candidate_stops(
+    highway: str,
+    direction: str,
+    current_mile: float,
+    stop_type_filter: str = "any",
+) -> list[dict]:
     stops = load_stops()
     route_stops = stops[(stops["highway"] == highway) & (stops["direction"] == direction)].copy()
+    if stop_type_filter != "any":
+        route_stops = route_stops[route_stops["stop_type"] == stop_type_filter]
     candidates: list[dict] = []
     for row in route_stops.to_dict("records"):
         distance = distance_ahead(current_mile, float(row["mile_marker"]), direction)
@@ -95,11 +102,25 @@ def _candidate_stops(highway: str, direction: str, current_mile: float) -> list[
     return sorted(candidates, key=lambda row: row["distance_miles"])
 
 
-def nearest_stop_baseline(highway: str, direction: str, current_mile: float, fuel_range: float, request: str) -> PlanResult:
+def nearest_stop_baseline(
+    highway: str,
+    direction: str,
+    current_mile: float,
+    fuel_range: float,
+    request: str,
+    stop_type_filter: str = "any",
+) -> PlanResult:
     """Baseline: choose the nearest open stop ahead, ignoring nuanced needs."""
-    candidates = _candidate_stops(highway, direction, current_mile)
+    candidates = _candidate_stops(highway, direction, current_mile, stop_type_filter)
     if not candidates:
-        return PlanResult("No stops found ahead.", tuple(), "urgent", tuple(), "", "No route data is available.")
+        return PlanResult(
+            "No stops found ahead.",
+            tuple(),
+            "urgent",
+            tuple(),
+            "",
+            _no_stops_caution(stop_type_filter),
+        )
     first = candidates[0]
     recommendation = _make_recommendation(first, tuple(), fuel_range)
     return PlanResult(
@@ -119,9 +140,10 @@ def smart_stop_planner(
     fuel_range: float,
     request: str,
     selected_amenities: list[str] | None = None,
+    stop_type_filter: str = "any",
 ) -> PlanResult:
     required, urgency = parse_needs(request, selected_amenities)
-    candidates = _candidate_stops(highway, direction, current_mile)
+    candidates = _candidate_stops(highway, direction, current_mile, stop_type_filter)
     scored = []
     for row in candidates:
         missing = tuple(amenity for amenity in required if not row[amenity])
@@ -148,16 +170,16 @@ def smart_stop_planner(
 
     if not recommendations:
         return PlanResult(
-            request_summary="No stops are available ahead in the sample dataset.",
+            request_summary=_no_stops_summary(stop_type_filter),
             required_amenities=required,
             urgency=urgency,
             recommendations=tuple(),
             driving_plan="No recommendation available.",
-            caution="Use a real navigation app or DOT source before driving.",
+            caution=_no_stops_caution(stop_type_filter),
         )
 
     top = recommendations[0]
-    request_summary = _summarize_request(required, urgency)
+    request_summary = _summarize_request(required, urgency, stop_type_filter)
     driving_plan = _make_driving_plan(top, recommendations, fuel_range)
     caution = _make_caution(top, fuel_range)
     return PlanResult(request_summary, required, urgency, recommendations, driving_plan, caution)
@@ -199,12 +221,13 @@ def _make_recommendation(
     )
 
 
-def _summarize_request(required: tuple[str, ...], urgency: str) -> str:
+def _summarize_request(required: tuple[str, ...], urgency: str, stop_type_filter: str) -> str:
     if required:
         needs = ", ".join(required).replace("_", " ")
     else:
         needs = "a reasonable rest stop"
-    return f"Driver needs {needs}; urgency is {urgency}."
+    type_copy = "any stop type" if stop_type_filter == "any" else stop_type_filter.replace("_", " ")
+    return f"Driver needs {needs}; urgency is {urgency}; stop type preference is {type_copy}."
 
 
 def _make_driving_plan(top: StopRecommendation, recommendations: tuple[StopRecommendation, ...], fuel_range: float) -> str:
@@ -225,3 +248,17 @@ def _make_caution(top: StopRecommendation, fuel_range: float) -> str:
     if top.missing_amenities:
         return "This recommendation has a tradeoff. Review the missing amenities before deciding."
     return "Check live navigation before driving because hours, closures, and services can change."
+
+
+def _no_stops_summary(stop_type_filter: str) -> str:
+    if stop_type_filter == "any":
+        return "No stops are available ahead in the sample dataset."
+    stop_type = stop_type_filter.replace("_", " ")
+    return f"No {stop_type} stops are available ahead in the sample dataset."
+
+
+def _no_stops_caution(stop_type_filter: str) -> str:
+    if stop_type_filter == "any":
+        return "Use a real navigation app or DOT source before driving."
+    stop_type = stop_type_filter.replace("_", " ")
+    return f"No matching {stop_type} was found ahead. Try a different stop type or verify options in live navigation."

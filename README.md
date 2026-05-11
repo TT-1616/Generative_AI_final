@@ -36,6 +36,8 @@ The app returns:
 - plain-language driving plan
 - caution reminding the user to verify live conditions
 
+Users can also choose a stop type preference, such as **Rest areas only**, **Welcome centers only**, **Service plazas only**, **Gas exits only**, or **Truck stops only**. This makes it possible to test tradeoffs like "show only official rest-area-style stops, even if they do not have gas or coffee."
+
 The design has three layers:
 
 - **Nearest-stop baseline:** choose the closest stop ahead, ignoring nuanced needs.

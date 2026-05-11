@@ -17,10 +17,19 @@ def llm_stop_planner(
     fuel_range: float,
     request: str,
     selected_amenities: list[str] | None = None,
+    stop_type_filter: str = "any",
     model: str = "gpt-4o-mini",
 ) -> PlanResult:
     """Use OpenAI to explain a stop recommendation, with deterministic fallback."""
-    deterministic = smart_stop_planner(highway, direction, current_mile, fuel_range, request, selected_amenities)
+    deterministic = smart_stop_planner(
+        highway,
+        direction,
+        current_mile,
+        fuel_range,
+        request,
+        selected_amenities,
+        stop_type_filter,
+    )
     if not os.getenv("OPENAI_API_KEY"):
         return deterministic
 
@@ -34,6 +43,7 @@ def llm_stop_planner(
         "request": request,
         "required_amenities": deterministic.required_amenities,
         "urgency": deterministic.urgency,
+        "stop_type_filter": stop_type_filter,
     }
     candidates = [
         {

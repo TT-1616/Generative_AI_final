@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from src.baseline import load_stops, nearest_stop_baseline, smart_stop_planner
 from src.llm import llm_stop_planner
-from src.policy import AMENITY_LABELS, ROUTE_DIRECTIONS, URGENCY_COPY
+from src.policy import AMENITY_LABELS, ROUTE_DIRECTIONS, STOP_TYPE_LABELS, URGENCY_COPY
 
 
 load_dotenv()
@@ -46,6 +46,12 @@ selected = st.multiselect(
     default=[],
 )
 
+stop_type_filter = st.selectbox(
+    "Stop type preference",
+    options=list(STOP_TYPE_LABELS.keys()),
+    format_func=lambda key: STOP_TYPE_LABELS[key],
+)
+
 request = st.text_area("Natural language request", value=sample, height=120)
 
 if st.button("Plan next stop", type="primary"):
@@ -53,11 +59,11 @@ if st.button("Plan next stop", type="primary"):
         st.warning("Describe what the driver needs first.")
     else:
         result = (
-            llm_stop_planner(highway, direction, current_mile, fuel_range, request, selected)
+            llm_stop_planner(highway, direction, current_mile, fuel_range, request, selected, stop_type_filter)
             if use_llm
-            else smart_stop_planner(highway, direction, current_mile, fuel_range, request, selected)
+            else smart_stop_planner(highway, direction, current_mile, fuel_range, request, selected, stop_type_filter)
         )
-        baseline = nearest_stop_baseline(highway, direction, current_mile, fuel_range, request)
+        baseline = nearest_stop_baseline(highway, direction, current_mile, fuel_range, request, stop_type_filter)
 
         if result.recommendations:
             top = result.recommendations[0]
@@ -89,8 +95,11 @@ if st.button("Plan next stop", type="primary"):
         st.dataframe(pd.DataFrame(candidate_rows), hide_index=True, use_container_width=True)
 
         with st.expander("Compare with nearest-stop baseline"):
-            base = baseline.recommendations[0]
-            st.write(f"Baseline would stop at **{base.name}** in {base.distance_miles:.1f} miles.")
+            if baseline.recommendations:
+                base = baseline.recommendations[0]
+                st.write(f"Baseline would stop at **{base.name}** in {base.distance_miles:.1f} miles.")
+            else:
+                st.write("Baseline found no stop for the selected stop type.")
             st.write(baseline.caution)
 
 with st.expander("Sample stop dataset"):

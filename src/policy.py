@@ -20,3 +20,12 @@ URGENCY_COPY = {
     "soon": "Prefer a stop in the next 20-30 miles if it satisfies the main need.",
     "flexible": "It is reasonable to trade a few extra miles for better amenities.",
 }
+
+STOP_TYPE_LABELS = {
+    "any": "Any stop type",
+    "rest_area": "Rest areas only",
+    "welcome_center": "Welcome centers only",
+    "service_plaza": "Service plazas only",
+    "gas_exit": "Gas exits only",
+    "truck_stop": "Truck stops only",
+}
