@@ -1,0 +1,30 @@
+stop_id,highway,direction,mile_marker,name,stop_type,restroom,gas,food,coffee,ev_charger,truck_parking,pet_area,open_24h,safety_note
+I75N006,I-75,northbound,6,Monroe Welcome Center,welcome_center,true,false,false,false,false,true,true,true,Official-style welcome center stop with restrooms and pet area but no fuel.
+I75N083,I-75,northbound,83,Detroit North Travel Plaza,service_plaza,true,true,true,true,true,true,false,true,Synthetic commercial exit for fuel food and EV charging.
+I75N158,I-75,northbound,158,Saginaw Rest Area,rest_area,true,false,false,false,false,true,true,true,Rest area style stop with parking and pet area.
+I75N202,I-75,northbound,202,West Branch Fuel Plaza,service_plaza,true,true,true,true,false,true,true,true,Synthetic all-purpose stop before northern Michigan.
+I75N313,I-75,northbound,313,Indian River Family Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service family and EV stop.
+I75N339,I-75,northbound,339,Topinabee Rest Area,rest_area,true,false,false,false,false,false,true,false,Seasonal-style rest area; check winter status.
+I75S339,I-75,southbound,339,Topinabee Rest Area,rest_area,true,false,false,false,false,false,true,false,Seasonal-style rest area; check winter status.
+I75S313,I-75,southbound,313,Indian River Family Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service family and EV stop.
+I75S202,I-75,southbound,202,West Branch Fuel Plaza,service_plaza,true,true,true,true,false,true,true,true,Synthetic all-purpose stop before central Michigan.
+I75S158,I-75,southbound,158,Saginaw Rest Area,rest_area,true,false,false,false,false,true,true,true,Rest area style stop with parking and pet area.
+I75S083,I-75,southbound,83,Detroit North Travel Plaza,service_plaza,true,true,true,true,true,true,false,true,Synthetic commercial exit for fuel food and EV charging.
+I94E001,I-94,eastbound,1,New Buffalo Welcome Center,welcome_center,true,false,false,false,false,true,true,true,Official-style Michigan welcome center with traveler services but no fuel.
+I94E040,I-94,eastbound,40,Kalamazoo Fuel Exit,gas_exit,true,true,false,true,false,true,false,true,Synthetic fuel and coffee exit.
+I94E075,I-94,eastbound,75,Battle Creek Family Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service stop.
+I94E118,I-94,eastbound,118,Jackson Rest Area,rest_area,true,false,false,false,false,true,true,true,Rest area style stop with restroom and pet area.
+I94E162,I-94,eastbound,162,Ann Arbor EV Plaza,service_plaza,true,true,true,true,true,false,true,true,Synthetic EV-friendly stop.
+I94W162,I-94,westbound,162,Ann Arbor EV Plaza,service_plaza,true,true,true,true,true,false,true,true,Synthetic EV-friendly stop.
+I94W118,I-94,westbound,118,Jackson Rest Area,rest_area,true,false,false,false,false,true,true,true,Rest area style stop with restroom and pet area.
+I94W075,I-94,westbound,75,Battle Creek Family Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service stop.
+I94W040,I-94,westbound,40,Kalamazoo Fuel Exit,gas_exit,true,true,false,true,false,true,false,true,Synthetic fuel and coffee exit.
+I94W001,I-94,westbound,1,New Buffalo Welcome Center,welcome_center,true,false,false,false,false,true,true,true,Official-style welcome center stop with no fuel.
+I96E045,I-96,eastbound,45,Grand Rapids Coffee Exit,gas_exit,true,true,false,true,false,false,false,true,Synthetic coffee and fuel exit.
+I96E087,I-96,eastbound,87,Grand Ledge Rest Area,rest_area,true,false,false,false,false,true,true,true,Official-style rest area with parking pet area and restrooms.
+I96E122,I-96,eastbound,122,Lansing Service Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service stop.
+I96E161,I-96,eastbound,161,Livingston Truck Stop,truck_stop,true,true,true,true,false,true,false,true,Synthetic large parking and fuel stop.
+I96W161,I-96,westbound,161,Livingston Truck Stop,truck_stop,true,true,true,true,false,true,false,true,Synthetic large parking and fuel stop.
+I96W122,I-96,westbound,122,Lansing Service Plaza,service_plaza,true,true,true,true,true,true,true,true,Synthetic full-service stop.
+I96W087,I-96,westbound,87,Grand Ledge Rest Area,rest_area,true,false,false,false,false,true,true,true,Official-style rest area with parking pet area and restrooms.
+I96W045,I-96,westbound,45,Grand Rapids Coffee Exit,gas_exit,true,true,false,true,false,false,false,true,Synthetic coffee and fuel exit.

@@ -1,0 +1,9 @@
+id,highway,direction,current_mile,fuel_range,request,expected_stop_id,why_good
+1,I-94,eastbound,0,50,"I just crossed into Michigan. Need gas and coffee soon.",I94E040,New Buffalo Welcome Center is closest but has no fuel or coffee.
+2,I-94,eastbound,0,35,"Kids need a bathroom and the dog needs a break. Fuel is fine.",I94E001,Welcome Center satisfies restroom and pet needs immediately.
+3,I-96,eastbound,70,60,"Driving a box truck at night. Need safe parking and food.",I96E122,Lansing Service Plaza is the closest stop with food and truck parking.
+4,I-96,eastbound,90,40,"EV is low. I need a charger and restroom.",I96E122,Lansing Service Plaza has EV charging and is within range.
+5,I-75,northbound,185,35,"Fuel is low and I want coffee before heading farther north.",I75N202,West Branch Fuel Plaza is reachable and matches gas plus coffee.
+6,I-75,northbound,300,45,"Family is hungry and the car needs charging.",I75N313,Indian River Family Plaza has food and EV charging.
+7,I-75,southbound,345,40,"Dog needs a break soon, but avoid seasonal closed places if possible.",I75S313,Topinabee is closer but marked not 24h; Indian River is safer.
+8,I-94,westbound,130,70,"EV charging would be great, and I need a restroom.",I94W075,Battle Creek Family Plaza is farther than Jackson but has EV charging.
